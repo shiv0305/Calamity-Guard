@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Burst Prediction</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+   
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+    background: url("static/aicloudyy.png") no-repeat center center fixed;
+    background-size: cover;
+    color: #fff; /* Adjust text color to contrast with the background image */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+
+        h1, h2 {
+            margin: 20px;
+
+        }
+        h1 {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: center;
+            animation: pulse 2s infinite;
+          }
+          
+          @keyframes pulse {
+            0% {
+              transform: scale(1);
+            }
+            50% {
+              transform: scale(1.1);
+            }
+            100% {
+              transform: scale(1);
+            }
+          }
+
+         form {
+         margin-left: 15px;   
+        } 
+        
+        p{
+            margin-left: 15px;
+        }
+
+        label, input, p {
+            /* display: block; */
+            width: 100%;
+        }
+
+        input[type="text"], input[type="submit"] {
+            padding: 10px;
+            margin-top: 8px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            width: 320px; /* Fixed width for the input */
+            margin-right: -39px;
+        }
+
+        .search-icon {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius:0 4px 4px 0;
+            /* border: 2px solid #ccc; */
+        }
+
+        .search-icon:hover {
+            background-color: #36c93e;
+        }
+
+        .card {
+    width: 400px;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    backdrop-filter: blur(10px); /* Adds the blur effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Light border to enhance glass effect */
+    color: #fff; /* Text color for contrast */
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+    transform: translateY(-10px); /* Slight lift effect */
+}
+
+        
+        .precaution-section, .emergency-contact-section, .steps-to-take-section {
+            background-color: #fff; /* Light background for better readability */
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .precaution-section h2, .emergency-contact-section h2, .steps-to-take-section h2 {
+            color: #f7f3f4; /* Match the background color of your main page */
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .precaution-section ul, .emergency-contact-section ul, .steps-to-take-section ol {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .precaution-section li, .emergency-contact-section li, .steps-to-take-section li {
+            margin-bottom: 10px;
+        }
+        
+        .emergency-contact-section li strong {
+            font-weight: bold;
+        }
+        .horizontal-sections {
+            display: flex;
+            justify-content: space-between; /* Adjust spacing between sections */
+            margin-top: 20px;
+        }
+        
+        .precaution-section, .emergency-contact-section, .steps-to-take-section {
+    flex: 1;
+    padding: 20px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+    backdrop-filter: blur(10px); /* Adds the blur effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Light border to enhance glass effect */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin: 0 10px;
+    color: #faf9f7; /* Adjusted text color for readability */
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.precaution-section:hover, .emergency-contact-section:hover, .steps-to-take-section:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+    transform: translateY(-10px); /* Slight lift effect */
+}
+
+      
+
+
+    </style>
+    
+</head>
+<body>
+    <h1>Cloud Burst Prediction</h1>
+    <div class="card">
+        
+        <form action="/cloudpredict" method="POST">
+            <label for="city_name">Enter City Name:</label><br>
+            <input type="text" id="city_name" name="city_name">
+            <button type="submit" class="search-icon"><i class="fas fa-search"></i></button>    
+        </form>
+        
+            {% if weather_data %}
+            <h2>Weather Data for {{ city_name }}</h2>
+            <p><i class="fas fa-thermometer-half"></i> Temperature (Min): {{ weather_data.forecast.forecastday[0].day.mintemp_c }}°C</p>
+            <p><i class="fas fa-thermometer-full"></i> Temperature (Max): {{ weather_data.forecast.forecastday[0].day.maxtemp_c }}°C</p>
+            <p><i class="fas fa-cloud-showers-heavy"></i> Rain: {{ weather_data.current.precip_mm }} mm</p>
+            <p><i class="fas fa-tint"></i> Humidity: {{ weather_data.current.humidity }}%</p>
+            <p><i class="fas fa-tachometer-alt"></i> Pressure: {{ weather_data.current.pressure_mb }} hPa</p>
+            <p><i class="fas fa-wind"></i> Wind Speed: {{ weather_data.current.wind_kph }} km/h</p>
+            <p><i class="fas fa-cloud"></i> Cloud: {{ weather_data.current.cloud }}%</p>
+            {% endif %}
+
+            {% if prediction_text %}
+            <h2>Prediction: {{ prediction_text }}</h2>
+            {% endif %}
+    </div>
+
+    <div class="horizontal-sections">
+
+        <div class="precaution-section">
+            <h2>Precautions</h2>
+            <ul>
+                <li>Avoid low-lying areas.</li>
+                <li>Stay away from water bodies.</li>
+                <li>Seek shelter in a sturdy building.</li>
+                <li>Stay updated with weather forecasts.</li>
+            
+                <li>Emergency Kit</li>
+                <li>Safe Locations</li>
+                <li>Community Awareness: Participate in community preparedness programs and drills.</li>
+            </ul>
+        </div>
+        
+        <div class="emergency-contact-section">
+            <h2>Emergency Contacts</h2>
+            <ul>
+                <li><strong>District Emergency Number:</strong> 1078</li>
+                <li><strong>State Emergency Number:</strong> 108</li>
+                <li><strong>National Disaster Response Force (NDRF):</strong> 1077</li>
+                <li>Emergency Services
+
+                    • Ambulance: 102
+                 
+                    • Health Helpline: 104
+                 </li>
+                 <li>State Disaster Management Authorities (SDMAs)
+
+                    • Each state has its own disaster management authority with contact details available on the NDMA website.
+                 </li>
+            </ul>
+        </div>
+        
+        <div class="steps-to-take-section">
+            <h2>Steps to Take During a Cloud Burst</h2>
+            <ol>
+                <li>Stay indoors in a safe place.</li>
+                <li>Avoid going outside unless absolutely necessary.</li>
+                <li>If caught outdoors, seek shelter immediately.</li>
+                <li>Stay away from waterlogged areas and electrical wires.</li>
+                <li>Listen to local authorities for updates and instructions.</li>
+            </ol>
+        </div>
+
+    </div>
+   
+
+
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flood prediction</title>
+    <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+    <div align="right"><div id="google_translate_element"></div></div>
+
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+      }
+      </script>
+    
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+   <style>
+    h1{
+      text-align: center;
+      font-size: 60px;
+  }
+  
+  h3{
+    text-align: center;
+    font-size: 40px;
+}
+  body{
+    background-image:url("{{url_for('static',filename='flood10.jpg')}}");
+    text-align: center;
+    color:white;
+    font-family: Comfortaa;
+    font-size:2rem;
+    text-shadow: .05em .05em .05em rgba(0, 0, 0, 0.3);
+  }
+
+   </style>
+</head>
+<body >
+  
+  <h1>Predict Calamities</h1>
+      
+      <main>
+        <h3><U>Enter Data For Prediction</U></h3>
+  
+
+    
+      <form action="/predict" method="POST">
+          <label for="name" style="font-size: 30px;">Present Years March to May rainfall data on average :</label><br>
+          <input type="number" id="name" name="input1" style="width: 80px;" autofocus required><font size="5">mm</font><br>
+          
+          <label style="font-size: 30px;"  for="collect data">Average rainfall in past 10 days of June :</label><br>
+          <input type="number" id="collect data" name="input2" style="width: 80px;" required><font size="5">mm</font><br>
+          
+          <label style="font-size: 30px;" for="collect data">Average increase in rainfall from may to June :</label><br>
+          <input type="number" id="collect data"  name="input3" style="width: 80px;" required><font size="5">mm</font><br>
+          <br><font size="5"><b> Choose State: </b></font><br>
+          <font size="4"><input type="radio" id="KERALA" name="input4" value="KERALA">KERALA
+          <input type="radio" id="UTTARAKHAND" name="input4" value="UTTARAKHAND">UTTARAKHAND</font><br> 
+          <input  style="width: 140px; height:25px;" type="submit" value="Predict">
+             
+      
+        </form>
+      </main>
+   
+</body>
+</html>

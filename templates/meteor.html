@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteor Shower Viewer</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Meteor Map</h1>
+    </header>
+
+    <!-- Form Container -->
+    <div class="form-container">
+        <h2>Find the Best Meteor Shower Viewing Time</h2>
+        <form id="cityForm">
+            <label for="city">Enter City:</label>
+    <input type="text" id="city" name="city" list="cityoptions" placeholder="Type a city name...">
+    
+
+    <datalist id="cityoptions"></datalist>
+    <button type="submit">Submit</button>
+        </form>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        const cityData = [
+            {city: "Abu Dhabi"}, {city: "Abuja"}, {city: "Accra"}, {city: "Adamstown"}, {city: "Addis Ababa"},
+            {city: "Algiers"}, {city: "Alofi"}, {city: "Amman"}, {city: "Amsterdam"}, {city: "Andorra la Vella"},
+            {city: "Ankara"}, {city: "Antananarivo"}, {city: "Apia"}, {city: "Ashgabat"}, {city: "Asmara"},
+            {city: "Asuncion"}, {city: "Athens"}, {city: "Avarua"}, {city: "Baghdad"}, {city: "Baku"},
+            {city: "Bamako"}, {city: "Bandar Seri Begawan"}, {city: "Bangkok"}, {city: "Bangui"}, {city: "Banjul"},
+            {city: "Basseterre"}, {city: "Beijing"}, {city: "Beirut"}, {city: "Belgrade"}, {city: "Belmopan"},
+            {city: "Berlin"}, {city: "Bern"}, {city: "Bishkek"}, {city: "Bissau"}, {city: "Bloemfontein"},
+            {city: "Bogota"}, {city: "Brasilia"}, {city: "Bratislava"}, {city: "Brazzaville"}, {city: "Bridgetown"},
+            {city: "Brussels"}, {city: "Bucharest"}, {city: "Budapest"}, {city: "Buenos Aires"}, {city: "Cairo"},
+            {city: "Canberra"}, {city: "Cape Town"}, {city: "Caracas"}, {city: "Castries"}, {city: "Cayenne"},
+            {city: "Charlotte Amalie"}, {city: "Chisinau"}, {city: "Conakry"}, {city: "Copenhagen"}, {city: "Dakar"},
+            {city: "Damascus"}, {city: "Dhaka"}, {city: "Dili"}, {city: "Djibouti"}, {city: "Dodoma"},
+            {city: "Doha"}, {city: "Douglas"}, {city: "Dublin"}, {city: "Dushanbe"}, {city: "Edinburgh of the Seven Seas"},
+            {city: "El Aaiun"}, {city: "Episkopi Cantonment"}, {city: "Flying Fish Cove"}, {city: "Freetown"},
+            {city: "Funafuti"}, {city: "Gaborone"}, {city: "George Town"}, {city: "Georgetown (Ascension Island)"},
+            {city: "Georgetown (Guyana)"}, {city: "Gibraltar"}, {city: "Gitega"}, {city: "Guatemala City"},
+            {city: "Gustavia"}, {city: "Hagatna"}, {city: "Hamilton"}, {city: "Hanga Roa"}, {city: "Hanoi"},
+            {city: "Harare"}, {city: "Hargeisa"}, {city: "Havana"}, {city: "Helsinki"}, {city: "Honiara"},
+            {city: "Islamabad"}, {city: "Jakarta"}, {city: "Jamestown"}, {city: "Jerusalem"}, {city: "Juba"},
+            {city: "Kabul"}, {city: "Kampala"}, {city: "Kathmandu"}, {city: "Khartoum"}, {city: "Kigali"},
+            {city: "King Edward Point"}, {city: "Kingston (Jamaica)"}, {city: "Kingston (Norfolk Island)"},
+            {city: "Kingstown"}, {city: "Kinshasa"}, {city: "Kuala Lumpur"}, {city: "Putrajaya"}, {city: "Kutaisi"},
+            {city: "Kuwait City"}, {city: "Kiev"}, {city: "Libreville"}, {city: "Lilongwe"}, {city: "Lima"},
+            {city: "Lisbon"}, {city: "Ljubljana"}, {city: "Lobamba"}, {city: "Lome"}, {city: "London"},
+            {city: "Longyearbyen"}, {city: "Luanda"}, {city: "Lusaka"}, {city: "Luxembourg"}, {city: "Madrid"},
+            {city: "Majuro"}, {city: "Malabo"}, {city: "Male"}, {city: "Managua"}, {city: "Manama"},
+            {city: "Manila"}, {city: "Maputo"}, {city: "Marigot"}, {city: "Maseru"}, {city: "Mata-Utu"},
+            {city: "Mbabane"}, {city: "Mexico City"}, {city: "Minsk"}, {city: "Mogadishu"}, {city: "Monaco"},
+            {city: "Monrovia"}, {city: "Montevideo"}, {city: "Moroni"}, {city: "Moscow"}, {city: "Muscat"},
+            {city: "Nairobi"}, {city: "Nassau"}, {city: "Naypyidaw"}, {city: "N'Djamena"}, {city: "New Delhi"},
+            {city: "Ngerulmud"}, {city: "Niamey"}, {city: "Nicosia"}, {city: "Nouakchott"}, {city: "Noumea"},
+            {city: "Nuku'alofa"}, {city: "Nur-Sultan"}, {city: "Nuuk"}, {city: "Oranjestad"}, {city: "Oslo"},
+            {city: "Ottawa"}, {city: "Ouagadougou"}, {city: "Pago Pago"}, {city: "Palikir"}, {city: "Panama City"},
+            {city: "Papeete"}, {city: "Paramaribo"}, {city: "Paris"}, {city: "Philipsburg"}, {city: "Phnom Penh"},
+            {city: "Plymouth"}, {city: "Podgorica"}, {city: "Port Louis"}, {city: "Port Moresby"}, {city: "Port Vila"},
+            {city: "Port-au-Prince"}, {city: "Port of Spain"}, {city: "Porto-Novo"}, {city: "Prague"},
+            {city: "Praia"}, {city: "Pretoria"}, {city: "Pristina"}, {city: "Pyongyang"}, {city: "Quito"},
+            {city: "Rabat"}, {city: "Reykjavik"}, {city: "Riga"}, {city: "Riyadh"}, {city: "Road Town"},
+            {city: "Rome"}, {city: "Roseau"}, {city: "Saipan"}, {city: "San Jose"}, {city: "San Juan"},
+            {city: "San Marino"}, {city: "San Salvador"}, {city: "Sana'a"}, {city: "Santiago"},
+            {city: "Santo Domingo"}, {city: "Sao Tome"}, {city: "Sarajevo"}, {city: "Seoul"}, {city: "Singapore"},
+            {city: "Skopje"}, {city: "Sofia"}, {city: "Sri Jayawardenepura Kotte"}, {city: "St. George's"},
+            {city: "St. Helier"}, {city: "St. John's"}, {city: "St. Peter Port"}, {city: "St. Pierre"},
+            {city: "Stanley"}, {city: "Stepanakert"}, {city: "Stockholm"}, {city: "Sucre"}, {city: "Sukhumi"},
+            {city: "Suva"}, {city: "Taipei"}, {city: "Tallinn"}, {city: "Tarawa"}, {city: "Tashkent"},
+            {city: "Tbilisi"}, {city: "Tegucigalpa"}, {city: "Tehran"}, {city: "Thimphu"}, {city: "Tirana"},
+            {city: "Tiraspol"}, {city: "Tokyo"}, {city: "Torshavn"}, {city: "Tripoli"}, {city: "Tskhinvali"},
+            {city: "Tunis"}, {city: "Ulaanbaatar"}, {city: "Vaduz"}, {city: "Valletta"}, {city: "Vatican City"}, {city: "Victoria"},
+            {city: "Vienna"}, {city: "Vientiane"}, {city: "Vilnius"}, {city: "Warsaw"}, {city: "Washington, D.C."},
+            {city: "Wellington"}, {city: "West Island"}, {city: "Willemstad"}, {city: "Windhoek"}, {city: "Yamoussoukro"},
+            {city: "Yaounde"}, {city: "Yaren"}, {city: "Yerevan"}, {city: "Zagreb"}
+        ];
+
+        // Function to populate the datalist with city options
+        const dataList = document.getElementById("cityoptions");
+        cityData.forEach(cityObj => {
+            const option = document.createElement("option");
+            option.value = cityObj.city;
+            dataList.appendChild(option);
+        });
+    </script>
+            
+        
+
+    <!-- Cards Container (About Us and Meteor Facts) -->
+    <div class="cards-container">
+        <!-- About Us Card -->
+        <div class="card">
+            <h3>About Us</h3>
+            <p>Welcome to the Meteor Shower Viewer! We are dedicated to helping skywatchers and enthusiasts experience the beauty of meteor showers by providing accurate, city-specific viewing times.
+    
+        </div>
+
+        <!-- Meteor Facts Card -->
+        <div class="card">
+            <h3>Meteor Facts</h3>
+            <p>A meteor is a streak of light in the sky caused by a small piece of space debris, such as a rock or dust particle, burning up in Earth's atmosphere. Most meteors that we see with the naked eye are no larger than a pebble, though some can be as large as a car..</p>
+        </div>
+    </div>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('static/ai meteor1.png'); /* Replace 'ai meteor1.png' with the actual URL of your image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
+            padding-bottom: 30px;
+        }
+
+        header {
+            width: 100%;
+            text-align: center;
+            padding: 1em 0;
+        }
+
+        h1 {
+            font-size: 2.5em;
+        }
+
+        /* Form Container */
+        .form-container {
+            text-align: center;
+            padding: 2em;
+            border-radius: 12px;
+            width: 400px;
+            margin-top: 2em;
+            color: #333;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .form-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 1em;
+            color: #fff;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+        }
+
+        input[type="text"], button {
+            padding: 0.75em;
+            font-size: 1em;
+            border-radius: 4px;
+            border: none;
+        }
+
+        input[type="text"] {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 1em;
+            font-size: 1em;
+            color: #fff;
+        }
+
+        /* Cards Container */
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 2em;
+            margin-top: 3em;
+            width: 80%; /* Ensure cards fit well on the page */
+            flex-wrap: wrap; /* Stack cards on smaller screens */
+        }
+
+        /* Card Styling */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2em;
+            border-radius: 12px;
+            width: 400px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            color: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h3 {
+            font-size: 1.8em;
+            margin-bottom: 1em;
+        }
+
+        .card p {
+            font-size: 1em;
+        }
+    </style>
+
+    <script>
+        document.getElementById("cityForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const city = document.getElementById("city").value;
+
+            try {
+                const response = await fetch('/metpredict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ city })
+                });
+                const data = await response.json();
+                document.getElementById("result").innerText = data.message;
+            } catch (error) {
+                document.getElementById("result").innerText = "An error occurred while fetching the data.";
+            }
+        });
+    </script>
+</body>
+</html>
